@@ -15,7 +15,7 @@ import java.time.Instant;
 public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @Column(name = "warehouse_number", nullable = false, unique = true)
     private String warehouseNumber;

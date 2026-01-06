@@ -8,7 +8,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @Data
 public class WarehouseDto {
-  private  long id;
+  private  int id;
   private String warehouseNumber;
   private String name;
   private boolean active;
