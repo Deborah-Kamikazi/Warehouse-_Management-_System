@@ -1,4 +1,4 @@
-package tech.kamikazi.warehousemanagementsystembackend.Entities;
+package tech.kamikazi.warehousemanagementsystembackend.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
