@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -35,5 +37,24 @@ public class Warehouse {
 
     @Column(name = "updated_time_stamp")
     private Instant updatedTimeStamp;
+
+    @OneToMany(
+            mappedBy = "warehouse",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private List<Location> locations = new ArrayList<>();
+
+    /* Convenience methods */
+    public void addLocation(Location location) {
+        locations.add(location);
+        location.setWarehouse(this);
+    }
+
+    public void removeLocation(Location location) {
+        locations.remove(location);
+        location.setWarehouse(null);
+    }
 
 }
