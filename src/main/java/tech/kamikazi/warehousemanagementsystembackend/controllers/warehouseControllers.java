@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping("/api/warehouses")
 public class warehouseControllers {
     private final WarehouseService warehouseService;
-    private final ValidationAutoConfiguration validationAutoConfiguration;
 
    @PostMapping()
     public ResponseEntity<?> createWarehouse(

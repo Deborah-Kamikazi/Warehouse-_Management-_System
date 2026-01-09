@@ -12,10 +12,9 @@ import tech.kamikazi.warehousemanagementsystembackend.entities.Location;
 public interface LocationMapper {
     LocationDto toDto(Location location);
     @Mapping(target = "id", ignore = true)
-//    @Mapping(target = "location_Code", ignore = true)
-//    @Mapping(target = "warehouseId", ignore = true)
+    @Mapping(target = "warehouseId", ignore = true)
     @Mapping(target = "version", ignore = true)
-//    @Mapping(target = "createdTimeStamp", ignore = true)
-//    @Mapping(target = "updatedTimeStamp", ignore = true)
+    @Mapping(target = "createdTimeStamp", ignore = true)
+    @Mapping(target = "updatedTimeStamp", ignore = true)
     Location toEntity(CreateLocationDto createDto);
 }
