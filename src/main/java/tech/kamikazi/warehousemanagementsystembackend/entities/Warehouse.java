@@ -46,15 +46,4 @@ public class Warehouse {
     )
     private List<Location> locations = new ArrayList<>();
 
-    /* Convenience methods */
-    public void addLocation(Location location) {
-        locations.add(location);
-        location.setWarehouse(this);
-    }
-
-    public void removeLocation(Location location) {
-        locations.remove(location);
-        location.setWarehouse(null);
-    }
-
 }
