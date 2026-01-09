@@ -61,4 +61,15 @@ public class Location {
 
     @Column(name = "updated_time_stamp")
     private Instant updatedTimeStamp;
+
+    @PrePersist
+    protected void onCreate() {
+        createdTimeStamp = Instant.now();
+        updatedTimeStamp = Instant.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedTimeStamp = Instant.now();
+    }
 }

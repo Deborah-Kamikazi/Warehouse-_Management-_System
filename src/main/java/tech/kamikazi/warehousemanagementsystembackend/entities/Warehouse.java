@@ -30,7 +30,7 @@ public class Warehouse {
 
     @Version
     @Column(name = "version")
-    private int version;
+    private Integer version;
 
     @Column(name = "created_time_stamp", updatable = false)
     private Instant createdTimeStamp;
