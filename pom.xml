@@ -117,20 +117,15 @@
                     <source>17</source>
                     <target>17</target>
                     <annotationProcessorPaths>
-                        <path>
+                        <dependency>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
-                        </path>
+                        </dependency>
 
                         <groupId>org.flywaydb</groupId>
                         <artifactId>flyway-maven-plugin</artifactId>
                         <version>11.14.1</version>
-<!--                        <configuration>-->
-<!--                            <url>jdbc:postgresql://localhost:5432/warehouse_management_system</url>-->
-<!--                            <user>postgres</user>-->
-<!--                            <password>Deborah1</password>-->
-<!--                        </configuration>-->
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
