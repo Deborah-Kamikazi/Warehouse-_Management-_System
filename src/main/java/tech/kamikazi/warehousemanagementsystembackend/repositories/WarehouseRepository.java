@@ -9,4 +9,5 @@ public interface WarehouseRepository extends JpaRepository <Warehouse, Integer> 
     boolean existsByWarehouseNumber(String warehouseNumber);
 
     Optional<Warehouse> findByWarehouseNumberAndActiveTrue(String warehouseNumber);
+    Optional<Warehouse> findByWarehouseNumber(String warehouseNumber);
 }
