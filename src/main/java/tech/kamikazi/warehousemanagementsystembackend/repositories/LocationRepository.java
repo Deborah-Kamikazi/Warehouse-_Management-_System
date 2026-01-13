@@ -11,4 +11,5 @@ public interface LocationRepository  extends JpaRepository<Location,Long> {
 
     Optional<Location> findByWarehouseAndLocationCode(Warehouse warehouse, String locationCode);
 
+
 }
