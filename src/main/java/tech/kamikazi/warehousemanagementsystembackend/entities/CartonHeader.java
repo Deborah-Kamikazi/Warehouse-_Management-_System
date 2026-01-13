@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -13,6 +15,7 @@ import java.time.Instant;
 @Builder
 @Table(name = "carton_header")
 public class CartonHeader {
+    
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +36,15 @@ public class CartonHeader {
 
     @Column(name = "updated_time_stamp")
     private Instant updatedTimeStamp;
+
+    @OneToMany(
+            mappedBy = "cartonHeader",  
+            cascade = CascadeType.ALL,   
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    @Builder.Default  
+    private List<SSCC> ssccs = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {

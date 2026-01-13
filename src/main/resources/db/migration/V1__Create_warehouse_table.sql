@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS warehouse
 (
     id                   BIGSERIAL PRIMARY KEY,
-    warehouse_number     VARCHAR(225) NOT NULL UNIQUE,
+    warehouseNumber     VARCHAR(225) NOT NULL UNIQUE,
     name                 VARCHAR(225) NOT NULL,
     active               BOOLEAN NOT NULL DEFAULT true,
     version              INTEGER NOT NULL,
