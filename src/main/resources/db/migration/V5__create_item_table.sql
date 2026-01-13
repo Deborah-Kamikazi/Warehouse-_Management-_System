@@ -1,4 +1,4 @@
-CREATE TABLE item (
+CREATE TABLE IF NOT EXISTS item (
         id BIGSERIAL PRIMARY KEY,
         item_number VARCHAR(255) NOT NULL,
         quantity INTEGER NOT NULL CHECK (quantity >= 0),

@@ -26,7 +26,7 @@ public class Warehouse {
     private String name;
 
     @Column(name = "active" , nullable = false)
-    private boolean active = true;
+    private Boolean active = true;
 
     @Version
     @Column(name = "version")
