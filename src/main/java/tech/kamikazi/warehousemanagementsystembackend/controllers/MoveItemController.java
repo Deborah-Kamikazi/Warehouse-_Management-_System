@@ -20,16 +20,17 @@ public class MoveItemController {
 
     @PostMapping("/move")
     public ResponseEntity<MoveItemDto> moveItem(@RequestBody MoveItemDto moveItemDto) {
+        MoveItemDto result = moveItemsService.moveItem(moveItemDto);
+        return ResponseEntity.ok(result);
 
-        try {
-            MoveItemDto result = moveItemsService.moveItem(moveItemDto);
-            return ResponseEntity.ok(result);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body((MoveItemDto) Map.of("error", e.getMessage()));
-        }
+//        try {
+//
+//        } catch (IllegalArgumentException e) {
+//            return ResponseEntity.badRequest().build();
+//        } catch (IllegalStateException e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.CONFLICT)
+//                    .body((MoveItemDto) Map.of("error", e.getMessage()));
+//        }
     }
 }

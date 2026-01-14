@@ -5,11 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 import tech.kamikazi.warehousemanagementsystembackend.dto.MoveItemDto;
+import tech.kamikazi.warehousemanagementsystembackend.dto.StockHistoryDto;
 import tech.kamikazi.warehousemanagementsystembackend.entities.ItemEntity;
 import tech.kamikazi.warehousemanagementsystembackend.entities.Location;
+import tech.kamikazi.warehousemanagementsystembackend.entities.StockHistory;
 import tech.kamikazi.warehousemanagementsystembackend.entities.Warehouse;
+import tech.kamikazi.warehousemanagementsystembackend.enums.StrockAction;
 import tech.kamikazi.warehousemanagementsystembackend.repositories.ItemRepository;
 import tech.kamikazi.warehousemanagementsystembackend.repositories.LocationRepository;
+import tech.kamikazi.warehousemanagementsystembackend.repositories.StockHistoryRepository;
 import tech.kamikazi.warehousemanagementsystembackend.repositories.WarehouseRepository;
 
 @Service
@@ -20,17 +24,19 @@ public class MoveItemsService {
     private  final WarehouseRepository warehouseRepository;
     private  final LocationRepository locationRepository;
     private final ItemRepository itemRepository;
+    private  final StockHistoryRepository stockHistoryRepository;
 
     public MoveItemDto moveItem(MoveItemDto moveItemDto) {
 
-        Warehouse warehouse = warehouseRepository.findByWarehouseNumber(moveItemDto.getWarehouseNumber())
+        Warehouse warehouse = warehouseRepository
+                .findByWarehouseNumber(moveItemDto.getWarehouseNumber())
                 .orElseThrow(() -> new IllegalArgumentException("Warehouse not found"));
 
         if (!warehouse.getActive()) {
             throw new IllegalStateException("Warehouse is inactive");
         }
 
-        Location fromLocation = locationRepository.findByWarehouseAndLocationCode(warehouse, moveItemDto.getFromLocationCode())
+        Location fromLocation = locationRepository.findByWarehouse_WarehouseNumberAndLocationCode(warehouse.getWarehouseNumber(), moveItemDto.getFromLocationCode())
                 .orElseThrow(() -> new IllegalArgumentException("Source location not found"));
 
         ItemEntity sourceItem = itemRepository.findByLocationAndItemNumber(fromLocation, moveItemDto.getItemNumber())
@@ -40,11 +46,17 @@ public class MoveItemsService {
             throw new IllegalStateException("Insufficient quantity in source location");
         }
 
-        Location toLocation = locationRepository.findByWarehouseAndLocationCode(warehouse, moveItemDto.getToLocationCode())
+
+        System.out.println(warehouse.getWarehouseNumber());
+
+        Location toLocation = locationRepository
+                .findByWarehouse_WarehouseNumberAndLocationCode(warehouse.getWarehouseNumber(), moveItemDto.getToLocationCode())
                 .orElseThrow(() -> new IllegalArgumentException("Destination location not found"));
 
         ItemEntity destItem = itemRepository.findByLocationAndItemNumber(toLocation, moveItemDto.getItemNumber())
                 .orElse(null);
+
+
 
         sourceItem.setQuantity(sourceItem.getQuantity() - moveItemDto.getQuantity());
         itemRepository.save(sourceItem);
@@ -59,6 +71,17 @@ public class MoveItemsService {
             destItem.setQuantity(destItem.getQuantity() + moveItemDto.getQuantity());
         }
         itemRepository.save(destItem);
+
+
+
+        StockHistory stockMoveHistory = StockHistory.builder()
+                .itemNumber(moveItemDto.getItemNumber())
+                .quantityChange(moveItemDto.getQuantity())
+                .action(StrockAction.MOVE)
+                .warehouseNumber(moveItemDto.getWarehouseNumber())
+                .build();
+
+        stockHistoryRepository.save(stockMoveHistory);
 
         return MoveItemDto.builder()
                 .warehouseNumber(moveItemDto.getWarehouseNumber())

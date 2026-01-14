@@ -8,14 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.kamikazi.warehousemanagementsystembackend.dto.ItemDto;
 import tech.kamikazi.warehousemanagementsystembackend.dto.ReceiveDto;
-import tech.kamikazi.warehousemanagementsystembackend.entities.ItemEntity;
-import tech.kamikazi.warehousemanagementsystembackend.entities.Location;
-import tech.kamikazi.warehousemanagementsystembackend.entities.SSCC;
-import tech.kamikazi.warehousemanagementsystembackend.entities.Warehouse;
-import tech.kamikazi.warehousemanagementsystembackend.repositories.ItemRepository;
-import tech.kamikazi.warehousemanagementsystembackend.repositories.LocationRepository;
-import tech.kamikazi.warehousemanagementsystembackend.repositories.SsccRepository;
-import tech.kamikazi.warehousemanagementsystembackend.repositories.WarehouseRepository;
+import tech.kamikazi.warehousemanagementsystembackend.entities.*;
+import tech.kamikazi.warehousemanagementsystembackend.enums.StrockAction;
+import tech.kamikazi.warehousemanagementsystembackend.repositories.*;
 
 import java.time.Instant;
 
@@ -29,6 +24,7 @@ public class ReceiveGoodsService {
     private final SsccRepository ssccRepository;
     private final ItemRepository itemRepository;
     private final LocationRepository locationRepository;
+    private  final StockHistoryRepository stockHistoryRepository;
 
 
     @Transactional
@@ -49,7 +45,7 @@ public class ReceiveGoodsService {
        String itemNumber = sscc.getCartonHeader().getBarcode();
 
         Location location = locationRepository
-                .findByWarehouseAndLocationCode( warehouse, receiveDto.getLocationCode())
+                .findByWarehouse_WarehouseNumberAndLocationCode( warehouse.getWarehouseNumber(), receiveDto.getLocationCode())
                 .orElseThrow(() -> new IllegalArgumentException("Location not found"));
 
 
@@ -67,6 +63,16 @@ public class ReceiveGoodsService {
 
         sscc.setReceivedTimestamp(Instant.now());
         ssccRepository.save(sscc);
+
+        StockHistory stockReceiveHistory = StockHistory.builder()
+                .itemNumber(item.getItemNumber())
+                .quantityChange(item.getQuantity())
+                .createdTimestamp(item.getCreatedTimeStamp())
+                .action(StrockAction.RECEIVE)
+                .warehouseNumber(receiveDto.getWarehouseNumber())
+                .build();
+        stockHistoryRepository.save(stockReceiveHistory);
+
 
         return new ItemDto(
                 item.getId(),

@@ -44,7 +44,7 @@ public class ShowInventoryService {
         Warehouse warehouse = warehouseRepository.findByWarehouseNumber(warehouseNumber)
                 .orElseThrow(() -> new IllegalArgumentException("Warehouse " + warehouseNumber + " not found"));
 
-        Location location = locationRepository.findByWarehouseAndLocationCode(warehouse, locationCode)
+        Location location = locationRepository.findByWarehouse_WarehouseNumberAndLocationCode(warehouse.getWarehouseNumber(), locationCode)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Location " + locationCode + " not found in warehouse " + warehouseNumber));
 

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class MoveItemDto {
+    @NotNull
     private String warehouseNumber;
     private String itemNumber;
     private String fromLocationCode;

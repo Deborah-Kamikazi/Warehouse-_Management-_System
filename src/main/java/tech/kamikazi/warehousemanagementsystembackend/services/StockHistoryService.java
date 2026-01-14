@@ -26,14 +26,9 @@ public class StockHistoryService {
             String itemNumber,
             String locationCode
     ) {
-        System.out.println("Fetching history for warehouse: " + warehouseNumber
-                + ", item: " + itemNumber
-                + ", location: " + locationCode);
-
         List<StockHistory> histories = stockHistoryRepository
                 .findHistory(warehouseNumber, itemNumber, locationCode);
 
-        System.out.println("Found " + histories.size() + " history records");
 
         return histories.stream()
                 .map(history -> StockHistoryDto.builder()
@@ -51,69 +46,4 @@ public class StockHistoryService {
                 .toList();
     }
 
-
-    public void createReceiveHistory(
-            String itemNumber,
-            Integer quantityChange,
-            String toLocationCode,
-            String warehouseNumber,
-            String sscc
-    ) {
-        StockHistory history = StockHistory.builder()
-                .action(StrockAction.RECEIVE)
-                .itemNumber(itemNumber)
-                .quantityChange(quantityChange)
-                .fromLocationCode(null)  // No source location for receives
-                .toLocationCode(toLocationCode)
-                .warehouseNumber(warehouseNumber)
-                .sscc(sscc)
-                .createdTimestamp(Instant.now())
-                .build();
-
-        stockHistoryRepository.save(history);
-        System.out.println("Created RECEIVE history for item: " + itemNumber);
-    }
-
-    public void createMoveHistory(
-            String itemNumber,
-            Integer quantityChange,
-            String fromLocationCode,
-            String toLocationCode,
-            String warehouseNumber
-    ) {
-        StockHistory history = StockHistory.builder()
-                .action(StrockAction.MOVE)
-                .itemNumber(itemNumber)
-                .quantityChange(quantityChange)
-                .fromLocationCode(fromLocationCode)
-                .toLocationCode(toLocationCode)
-                .warehouseNumber(warehouseNumber)
-                .sscc(null)  // No SSCC for moves
-                .createdTimestamp(Instant.now())
-                .build();
-
-        stockHistoryRepository.save(history);
-        System.out.println("Created MOVE history for item: " + itemNumber);
-    }
-
-    public void createAdjustHistory(
-            String itemNumber,
-            Integer quantityChange,
-            String locationCode,
-            String warehouseNumber
-    ) {
-        StockHistory history = StockHistory.builder()
-                .action(StrockAction.ADJUST)
-                .itemNumber(itemNumber)
-                .quantityChange(quantityChange)
-                .fromLocationCode(locationCode)
-                .toLocationCode(null)
-                .warehouseNumber(warehouseNumber)
-                .sscc(null)
-                .createdTimestamp(Instant.now())
-                .build();
-
-        stockHistoryRepository.save(history);
-        System.out.println("Created ADJUST history for item: " + itemNumber);
-    }
 }
