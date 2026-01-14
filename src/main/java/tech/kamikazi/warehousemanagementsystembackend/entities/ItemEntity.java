@@ -1,6 +1,7 @@
 package tech.kamikazi.warehousemanagementsystembackend.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,6 +30,7 @@ public class ItemEntity {
     @Column(name = "item_number", nullable = false)
     private String itemNumber;
 
+    @NotNull
     @PositiveOrZero
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
