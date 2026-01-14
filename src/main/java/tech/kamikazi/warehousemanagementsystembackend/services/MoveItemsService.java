@@ -17,8 +17,8 @@ import tech.kamikazi.warehousemanagementsystembackend.repositories.WarehouseRepo
 @Getter
 @Setter
 public class MoveItemsService {
-    private WarehouseRepository warehouseRepository;
-    private LocationRepository locationRepository;
+    private  final WarehouseRepository warehouseRepository;
+    private  final LocationRepository locationRepository;
     private final ItemRepository itemRepository;
 
     public MoveItemDto moveItem(MoveItemDto moveItemDto) {
