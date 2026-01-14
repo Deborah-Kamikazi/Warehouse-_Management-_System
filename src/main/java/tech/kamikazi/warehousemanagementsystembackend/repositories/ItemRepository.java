@@ -12,4 +12,5 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Integer> {
     Optional<ItemEntity> findByLocationId(long locationId);
     Optional<ItemEntity> findAllByLocation_Warehouse(Warehouse warehouse);
 
+    Optional<ItemEntity> findByLocationAndItemNumber(Location fromLocation, String itemNumber);
 }
