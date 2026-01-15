@@ -17,7 +17,7 @@ import java.util.List;
 public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "warehouse_number", nullable = false, unique = true)
     private String warehouseNumber;
@@ -26,7 +26,7 @@ public class Warehouse {
     private String name;
 
     @Column(name = "active" , nullable = false)
-    private boolean active = true;
+    private Boolean active = true;
 
     @Version
     @Column(name = "version")
