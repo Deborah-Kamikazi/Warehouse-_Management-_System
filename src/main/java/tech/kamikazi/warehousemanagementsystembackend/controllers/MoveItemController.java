@@ -22,15 +22,5 @@ public class MoveItemController {
     public ResponseEntity<MoveItemDto> moveItem(@RequestBody MoveItemDto moveItemDto) {
         MoveItemDto result = moveItemsService.moveItem(moveItemDto);
         return ResponseEntity.ok(result);
-
-//        try {
-//
-//        } catch (IllegalArgumentException e) {
-//            return ResponseEntity.badRequest().build();
-//        } catch (IllegalStateException e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.CONFLICT)
-//                    .body((MoveItemDto) Map.of("error", e.getMessage()));
-//        }
     }
 }
