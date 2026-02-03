@@ -1,9 +1,10 @@
-name: Warehouse management system Workflow
+name: Warehouse Management System Workflow
 
 on:
   workflow_dispatch:
   push:
-      branches: ['main']
+    branches:
+      - main
 
 jobs:
   build:
@@ -19,5 +20,11 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Build and test
-        run: mvn clean test
+      - id: build
+        name: Build
+        run: mvn clean compile
+
+      - id: test
+        name: Test
+        if: steps.build.outcome == 'success'
+        run: mvn test
